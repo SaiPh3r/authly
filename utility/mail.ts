@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+//configure mail for usage..
 
 const transporter = nodemailer.createTransport({
     host: "smtp.ethereal.email",
