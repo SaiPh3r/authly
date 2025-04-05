@@ -13,6 +13,7 @@ export async function connect(){
         connection.on('error',(error)=>{
             console.log('cant connect to data base');
             console.log(error);
+            process.exit;
         })
         
     } catch (error) {
