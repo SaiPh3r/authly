@@ -18,13 +18,11 @@ var transporter = nodemailer.createTransport({
     const hashedToken = await bcrypt.hash(userId.toString(), 10);
     const hashPassToken = await bcrypt.hash(userId.toString(), 10);
     if(emailType==="verify"){
-      
       await User.findByIdAndUpdate(userId,{
         verifyToken:hashedToken,
         verifyTokenExpiry:Date.now() + 3600000
       })
     } else if(emailType==="resetPassword"){
-      
       await User.findByIdAndUpdate(userId,{
         forgotPasswordToken:hashPassToken,
         forgotPasswordTokenExpiry:Date.now() + 3600000
