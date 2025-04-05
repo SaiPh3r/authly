@@ -3,27 +3,28 @@ import bcrypt from "bcryptjs";
 import {User} from "@/models/userModels"
 
 
-const transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 465,
-    secure: true, 
-    auth: {
-      user: "maddison53@ethereal.email",
-      pass: "jn7jnAPss4f63QBp6D",
-    },
-  });
+//using mailtrap replaced transporter
+var transporter = nodemailer.createTransport({
+  host: "sandbox.smtp.mailtrap.io",
+  port: 2525,
+  auth: {
+    user: "34c1ec936e9602",
+    pass: "3966454366a55d"
+  }
+});
 
 
   async function main(email: string,emailType: string,userId: any) {
-
+    const hashedToken = await bcrypt.hash(userId.toString(), 10);
+    const hashPassToken = await bcrypt.hash(userId.toString(), 10);
     if(emailType==="verify"){
-      const hashedToken = await bcrypt.hash(userId.toString(), 10);
+      
       await User.findByIdAndUpdate(userId,{
         verifyToken:hashedToken,
         verifyTokenExpiry:Date.now() + 3600000
       })
     } else if(emailType==="resetPassword"){
-      const hashPassToken = await bcrypt.hash(userId.toString(), 10);
+      
       await User.findByIdAndUpdate(userId,{
         forgotPasswordToken:hashPassToken,
         forgotPasswordTokenExpiry:Date.now() + 3600000
@@ -35,7 +36,7 @@ const transporter = nodemailer.createTransport({
       from: userId,
       to: email,
       subject: emailType==="verify"?"verify":"Reset Password", 
-      html: "<b>Hello world?</b>", 
+      html: `<p>Click <a href="${process.env.DOMAIN}/verify?token=${hashedToken} ">here</a> to ${emailType === "verify" ? "verify your email" : "reset your password"}</p>`, 
     });
   
     console.log("Message sent: %s", info.messageId);
