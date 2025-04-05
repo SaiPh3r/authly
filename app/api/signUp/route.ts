@@ -2,15 +2,17 @@ import { NextRequest,NextResponse } from "next/server";
 import {connect} from "@/db/dbConfig"
 import {User} from "@/models/userModels"
 import bcrypt from "bcryptjs";
+import {main} from "@/utility/mail"
 
 connect()
 
-export default async function POST(request:NextRequest){
+export  async function POST(request:NextRequest){
     try {
         const resBody = await request.json();
         const {userName,email,password} = resBody
         console.log(resBody)
         const user = await User.findOne({email});
+        
 
         if(user){
             return NextResponse.json({
@@ -25,6 +27,12 @@ export default async function POST(request:NextRequest){
                 password:hashedPassword,
             })
             const savedUser = await newUser.save();
+            console.log(savedUser)
+
+            await main(email,"verify",savedUser._id) // calling mail
+
+
+
             return NextResponse.json({
                 message:"User Created Successfully",
                 success:true,
