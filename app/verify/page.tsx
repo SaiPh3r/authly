@@ -49,8 +49,8 @@ const VerifyEmailPAGE = () => {
           </button>
         </div>
         {!token && (
-          <p className="mt-6 text-red-500 text-sm font-medium">
-            Invalid verification link. Please check your email for the correct link.
+          <p className="mt-6 text-red-500 font-black text-2xl">
+            where's the token huh?
           </p>
         )}
       </div>

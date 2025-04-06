@@ -72,6 +72,7 @@ const SignUpPage = () => {
           >
             {loader ? "Loading..." : "Sign Up"}
           </button>
+          <p className='text-center text-black '>Already a user? <a href="/logIn" className="text-blue-500 hover:underline">Log In</a></p>
         </form>
       </div>
     </div>
