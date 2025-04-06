@@ -6,18 +6,25 @@ import { getData } from "@/utility/getDataFromToken";
 connect()
 
 export async function POST(request:NextRequest){
-    const userId = await getData(request);
-    const user = await User.findOne({_id: userId }).select('-password')
-
-    if(!user){
+    try {
+        const userId = await getData(request);
+        const user = await User.findOne({_id: userId }).select('-password')
+    
+        if(!user){
+            return NextResponse.json({
+                error:"User not found"},
+            {status:400})
+        }
+    
         return NextResponse.json({
-            error:"User not found"},
-        {status:400})
+            user,
+            success:true,
+        })
+        
+    } catch (error:any) {
+        console.log(error)
+        return NextResponse.json({error:"something went wrong"},{status:500})
     }
 
-    return NextResponse.json({
-        user,
-        success:true,
-    })
 
 }
