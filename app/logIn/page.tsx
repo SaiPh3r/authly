@@ -70,6 +70,9 @@ const LoginPage = () => {
         >
           {loader ? 'Logging in...' : 'Login'}
         </button>
+        <p>
+          don't have an account ? <a href="/signUp" className="text-blue-500 hover:underline">sign up</a>
+        </p>
       </div>
     </div>
   )
