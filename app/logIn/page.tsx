@@ -27,7 +27,7 @@ const LoginPage = () => {
         throw new Error(data.error || "Login failed")
       }
       console.log(data, "user logged in")
-      router.push("/")
+      router.push("/me")
       
     } catch (error:any) {
       console.log(error.message)
